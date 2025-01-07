@@ -1,6 +1,5 @@
 package com.mota.matheus.kafka;
 
-
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -15,10 +14,11 @@ public class FraudDetectorService {
     public static void main(String[] args) throws InterruptedException {
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties());
-        consumer.subscribe(Collections.singletonList("NEW_ORDER"));
+        consumer.subscribe(Collections.singletonList("ECOMERCE_NEW_ORDER"));
         while(true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
             if(!records.isEmpty()) {
+                System.out.println("Encontrei " + records.count() + " registros.");
                 for(var record : records) {
                     System.out.println("--------------------------------------------------------");
                     System.out.println("Processing new order, checking for fraud");
